@@ -35,7 +35,7 @@ export function Sidebar() {
 
   // 初始化加载会话列表
   useEffect(() => {
-    fetch('/api/sessions')
+    fetch('./api/sessions')
       .then(r => r.json())
       .then(setSessions)
       .catch(() => toast.error('加载会话列表失败'))
@@ -43,26 +43,15 @@ export function Sidebar() {
 
   // 新建会话
   const handleNewSession = async () => {
-    const res = await fetch('/api/sessions', { method: 'POST' })
+    const res = await fetch('./api/sessions', { method: 'POST' })
     const session = await res.json()
     addSession(session)
     setCurrentSessionId(session.id)
   }
 
-  // 删除会话
-  // const handleDeleteSession = async (e: React.MouseEvent, id: string) => {
-  //   e.stopPropagation()
-  //   await fetch(`/api/sessions/${id}`, { method: 'DELETE' })
-  //   removeSession(id)
-  //   if (currentSessionId === id) {
-  //     setCurrentSessionId(null)
-  //   }
-  //   toast.success('会话已删除')
-  // }
-
   const handleDeleteConfirm = async () => {
     if (!deleteTargetId) return
-    await fetch(`/api/sessions/${deleteTargetId}`, { method: 'DELETE' })
+    await fetch(`./api/sessions/${deleteTargetId}`, { method: 'DELETE' })
     removeSession(deleteTargetId)
     if (currentSessionId === deleteTargetId) setCurrentSessionId(null)
     toast.success('会话已删除')
