@@ -5,7 +5,6 @@
 <div>
 
 [![](https://img.shields.io/badge/license-MIT-violet.svg)](https://champyin.com)
-[![](https://img.shields.io/badge/package-NPM-blueviolet.svg)](https://champyin.com)
 
 </div>
 
