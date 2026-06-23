@@ -76,7 +76,7 @@ export function ChatPanel() {
     transportRef.current = new DefaultChatTransport({
       api: './api/chat', // 初始值随便，实际用 fetch override
       prepareSendMessagesRequest: ({ messages, id }) => ({
-        api: modeRef.current === 'agent' ? '/api/agent' : '/api/chat',
+        api: modeRef.current === 'agent' ? './api/agent' : './api/chat',
         body: {
           messages,
           id,
