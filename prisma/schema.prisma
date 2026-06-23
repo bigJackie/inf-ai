@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Session {
+  id        String    @id @default(cuid())
+  title     String    @default("新对话")   // 首条消息前20字自动生成
+  systemPrompt String?                    // 会话级 prompt，null = 使用全局
+  model        String?                    // 会话级模型，null = 使用全局
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+
+  messages  Message[]
+  documents Document[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  sessionId String
+  role      String   // user | assistant | tool
+  parts     Json     // UIMessage parts 原样存储
+  createdAt DateTime @default(now())
+
+  session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  @@index([sessionId])
+}
+
+// 上传的原始文档
+model Document {
+  id        String   @id @default(cuid())
+  sessionId String?  // 关联会话，null = 未关联
+  name      String                        // 文件名
+  size      Int                           // 文件大小（字节）
+  mimeType  String                        // 文件类型
+  createdAt DateTime @default(now())
+
+  session   Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  chunks    Chunk[]
+  @@index([sessionId])
+}
+
+// 文档切分后的文本块，每块存一个向量
+model Chunk {
+  id         String   @id @default(cuid())
+  documentId String
+  content    String                       // 原始文本
+  index      Int                          // 在Chunks中的顺序
+  embedding  Unsupported("vector(1024)")? // pgvector 向量字段，1024位浮点数对应 BAAI/bge-m3
+
+  // 外键：documentId 关联 Document.id，Document删了Chunk也删
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  // 加索引，按文档查块更快
+  @@index([documentId])
+}
