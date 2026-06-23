@@ -74,7 +74,7 @@ export function ChatPanel() {
   const transportRef = useRef<DefaultChatTransport<UIMessage>>(null)
   if (!transportRef.current) {
     transportRef.current = new DefaultChatTransport({
-      api: '/api/chat', // 初始值随便，实际用 fetch override
+      api: './api/chat', // 初始值随便，实际用 fetch override
       prepareSendMessagesRequest: ({ messages, id }) => ({
         api: modeRef.current === 'agent' ? '/api/agent' : '/api/chat',
         body: {
@@ -107,7 +107,7 @@ export function ChatPanel() {
       return
     }
 
-    fetch(`/api/sessions/${currentSessionId}`)
+    fetch(`./api/sessions/${currentSessionId}`)
       .then(r => r.json())
       .then(data => {
         // 恢复消息
@@ -153,7 +153,7 @@ export function ChatPanel() {
   useEffect(() => {
     if (status !== 'ready' || !currentSessionId || messages.length === 0) return
 
-    fetch(`/api/sessions/${currentSessionId}/messages`, {
+    fetch(`./api/sessions/${currentSessionId}/messages`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages }),
@@ -174,7 +174,7 @@ export function ChatPanel() {
     }
 
     if (!currentSessionId) {
-      const res = await fetch('/api/sessions', { method: 'POST' })
+      const res = await fetch('./api/sessions', { method: 'POST' })
       const session = await res.json()
       addSession(session)
       setCurrentSessionId(session.id)
@@ -209,7 +209,7 @@ export function ChatPanel() {
     // 没有会话时自动新建
     let sessionId = currentSessionId
     if (!sessionId) {
-      const res = await fetch('/api/sessions', { method: 'POST' })
+      const res = await fetch('./api/sessions', { method: 'POST' })
       const session = await res.json()
       addSession(session)
       setCurrentSessionId(session.id)
@@ -224,7 +224,7 @@ export function ChatPanel() {
         formData.append('sessionId', sessionId)
       }
 
-      const res = await fetch('/api/upload', { method: 'POST', body: formData })
+      const res = await fetch('./api/upload', { method: 'POST', body: formData })
       const data = await res.json()
 
       if (!res.ok) {
@@ -245,7 +245,7 @@ export function ChatPanel() {
   // 从知识库删除文档
   const handleDocRemove = async (documentId: string) => {
     try {
-      const res = await fetch(`/api/documents/${documentId}`, { method: 'DELETE' })
+      const res = await fetch(`./api/documents/${documentId}`, { method: 'DELETE' })
       if (!res.ok) {
         toast.error('删除失败')
       }

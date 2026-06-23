@@ -60,7 +60,7 @@ export function SessionSettingsSheet({ open, onOpenChange }: Props) {
     setSessionModel(newModel)
 
     if (currentSessionId) {
-      await fetch(`/api/sessions/${currentSessionId}`, {
+      await fetch(`./api/sessions/${currentSessionId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
