@@ -14,6 +14,11 @@
 
 ---
 
+## 在线Demo
+[Infinite Agent在线Demo](https://jackiewong.top/projects/infai/)
+
+---
+
 ## ✨ 功能概览
 
 | 功能                | 描述                                                                   |
