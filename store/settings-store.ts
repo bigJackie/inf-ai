@@ -27,7 +27,7 @@ interface SettingsState extends GlobalSettings {
 export const useSettingsStore = create<SettingsState>()(
   persist(
     set => ({
-      model: 'nex-agi/Nex-N2-Pro',
+      model: 'deepseek-ai/DeepSeek-V3',
       temperature: 0.7,
       systemPrompt:
         '你是一个智能 AI 助理，回答简洁、准确。如果不确定答案，请直接说不知道，不要编造内容。',

@@ -59,7 +59,7 @@ ${context}`
   const aiModel = createModel({
     apiKey: siliconflowApiKey || process.env.OPENAI_API_KEY!,
     baseURL: siliconflowBaseURL || process.env.NEXT_PUBLIC_OPENAI_BASE_URL!,
-    model: model ?? 'nex-agi/Nex-N2-Pro',
+    model: model ?? 'deepseek-ai/DeepSeek-V3',
   })
 
   const result = streamText({
